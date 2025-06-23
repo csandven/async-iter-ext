@@ -116,3 +116,73 @@ where
     self.size_hint()
   }
 }
+
+// pub type ArcedMap<T> = Map<T, fn(<T as Iterator>::Item) -> Arc<<T as Iterator>::Item>>;
+//
+// pub trait MapIntoArc<I: Iterator = Self> {
+//   fn arc_iter(self) -> ArcedMap<I>
+//   where
+//     Self: Sized;
+// }
+//
+// impl<T> MapIntoArc for T
+// where
+//   T: Iterator,
+// {
+//   fn arc_iter(self) -> ArcedMap<Self>
+//   where
+//     Self: Sized,
+//   {
+//     self.map(Arc::new)
+//   }
+// }
+//
+// impl<T> MapIntoArc<IntoIter<T>> for Vec<T> {
+//   fn arc_iter(self) -> ArcedMap<IntoIter<T>>
+//   where
+//     Self: Sized,
+//   {
+//     self.into_iter().map(Arc::new)
+//   }
+// }
+//
+// #[cfg(test)]
+// mod tests {
+//   use crate::AsyncIterTools;
+//   use crate::iter::MapIntoArc;
+//   use rstest::rstest;
+//   use std::sync::Arc;
+//
+//   #[test]
+//   fn test_map_into_arc_iter() {
+//     let items = vec![1, 2, 3];
+//
+//
+//     items.iter().for_each(|item| {});
+//
+//     let arced = items.into_iter().arc_iter().collect::<Vec<_>>();
+//
+//     assert_eq!(arced, vec![Arc::new(1), Arc::new(2), Arc::new(3)]);
+//   }
+//
+//   #[test]
+//   fn test_map_into_arc_vec() {
+//     let items = vec![1, 2, 3];
+//     let arced = items.arc_iter().collect::<Vec<_>>();
+//
+//     assert_eq!(arced, vec![Arc::new(1), Arc::new(2), Arc::new(3)]);
+//   }
+//
+//   #[rstest]
+//   async fn test_map_into_arc_then_async_for_each() {
+//     let items = vec![0, 1, 2];
+//     items
+//       .into_iter()
+//       .arc_iter()
+//       .enumerate()
+//       .for_each_async(|(index, item)| async move {
+//         assert_eq!(Arc::new(index as i32), item);
+//       })
+//       .await;
+//   }
+// }
