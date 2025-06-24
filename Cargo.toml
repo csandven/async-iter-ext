@@ -1,0 +1,25 @@
+[package]
+name = "async-iter-ext"
+description = "Async iterator methods and async methods for option and result."
+
+version = "0.1.0"
+edition = "2024"
+
+authors = ["csandven"]
+readme = "README.md"
+
+keywords = ["iterator", "async", "option", "result"]
+categories = ["rust-patterns"]
+
+license = "MIT OR Apache-2.0"
+repository = "https://github.com/csandven/async-iter-ext"
+
+[lib]
+bench = false
+test = false
+
+[dependencies]
+
+[dev-dependencies]
+rstest = "0.25" 
+async-std = { version = "1.13", features = ["attributes"] }
