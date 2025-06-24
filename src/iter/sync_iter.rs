@@ -1,4 +1,5 @@
 use crate::iter::AsyncIterator;
+use std::fmt::{Debug, Formatter};
 use std::ops::Deref;
 use std::pin::{Pin, pin};
 use std::task::{Context, Poll};
@@ -48,5 +49,14 @@ where
 
   fn next(&mut self) -> Option<Self::Item> {
     self.iter.next()
+  }
+}
+
+impl<I> Debug for SyncIter<I>
+where
+  I: Debug,
+{
+  fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    f.debug_struct("SyncIter").field("iter", &self.iter).finish()
   }
 }

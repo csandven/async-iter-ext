@@ -19,11 +19,12 @@ use async_iter_ext::AsyncIterTools;
 
 ### Simple map_async example
 
-```rust,ignore
-use async_iter_ext::AsyncIterTools;
-use tokio::time::{sleep, Duration};
+```rust
+use async_iter_ext::{AsyncIterTools, AsyncIterator};
+use async_std::task::sleep;
+use std::time::Duration;
 
-#[tokio::main]
+#[async_std::main]
 async fn main() {
   let items = [1, 2, 3, 4];
 
