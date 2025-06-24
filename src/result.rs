@@ -13,11 +13,11 @@ pub trait AsyncResultTools<T, E> {
   /// use async_std::task::block_on;
   ///
   /// async fn check_even(n: u32) -> bool {
-  ///     n % 2 == 0
+  ///   n % 2 == 0
   /// }
   ///
   /// let res: Result<u32, ()> = Ok(4);
-  /// assert!(block_on(async {res.is_ok_and_async(check_even).await}));
+  /// assert!(block_on(async { res.is_ok_and_async(check_even).await }));
   /// ```
   #[allow(clippy::wrong_self_convention)]
   fn is_ok_and_async<F, Fut>(self, f: F) -> impl Future<Output = bool>
@@ -37,11 +37,11 @@ pub trait AsyncResultTools<T, E> {
   /// use async_std::task::block_on;
   ///
   /// async fn double(x: u32) -> u32 {
-  ///     x * 2
+  ///   x * 2
   /// }
   ///
   /// let res: Result<u32, &str> = Ok(3);
-  /// let doubled = block_on(async {res.map_async(double).await});
+  /// let doubled = block_on(async { res.map_async(double).await });
   /// assert_eq!(doubled, Ok(6));
   /// ```
   fn map_async<B, F, Fut>(self, f: F) -> impl Future<Output = Result<B, E>>

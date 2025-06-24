@@ -1,9 +1,12 @@
+use std::{
+  fmt::{Debug, Formatter},
+  ops::Deref,
+  pin::{Pin, pin},
+  task::{Context, Poll},
+  vec::IntoIter,
+};
+
 use crate::iter::AsyncIterator;
-use std::fmt::{Debug, Formatter};
-use std::ops::Deref;
-use std::pin::{Pin, pin};
-use std::task::{Context, Poll};
-use std::vec::IntoIter;
 
 pub trait PollSyncIter: AsyncIterator {
   #[inline]

@@ -1,6 +1,7 @@
+use std::time::Duration;
+
 use async_iter_ext::AsyncIterTools;
 use async_std::task::sleep;
-use std::time::Duration;
 
 #[rstest::rstest]
 async fn test_for_each_async_mut() {

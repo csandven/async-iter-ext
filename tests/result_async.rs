@@ -1,7 +1,8 @@
+use std::time::Duration;
+
 use async_iter_ext::AsyncResultTools;
 use async_std::task::sleep;
 use rstest::rstest;
-use std::time::Duration;
 
 #[derive(Debug, PartialEq)]
 enum Error {

@@ -1,16 +1,15 @@
 #![doc = include_str!("../README.md")]
 
-use combinator::filter::AsyncFilter;
-use combinator::map::AsyncMap;
+use combinator::{filter::AsyncFilter, map::AsyncMap};
 
 pub mod combinator;
 pub mod iter;
 mod option;
 mod result;
 
+pub use iter::AsyncIterator;
 pub use option::AsyncOptionTools;
 pub use result::AsyncResultTools;
-pub use iter::AsyncIterator;
 
 pub trait AsyncIterTools: AsyncIterator {
   /// Calls an async closure on each element of an iterator
@@ -24,20 +23,24 @@ pub trait AsyncIterTools: AsyncIterator {
   /// Basic usage:
   ///
   /// ```rust
-  /// use async_iter_ext::AsyncIterTools;
-  /// use async_std::task;
   /// use std::time::Duration;
   ///
-  /// fn main() {
-  ///     task::block_on(async {
-  ///         let items = [1, 2, 3, 4];
-  ///         items.iter().for_each_async(|item| async move {
-  ///             // Simulate some async work
-  ///             task::sleep(Duration::from_millis(100)).await;
-  ///             println!("Processing {}", item);
-  ///         }).await;
-  ///     });
-  /// }
+  /// use async_iter_ext::AsyncIterTools;
+  /// use async_std::task;
+  ///
+  /// task::block_on(async {
+  ///   let items = [1, 2, 3, 4];
+  ///   items
+  ///     .iter()
+  ///     .for_each_async(|item| {
+  ///       async move {
+  ///         // Simulate some async work
+  ///         task::sleep(Duration::from_millis(100)).await;
+  ///         println!("Processing {}", item);
+  ///       }
+  ///     })
+  ///     .await;
+  /// });
   /// ```
   fn for_each_async<F, Fut>(mut self, f: F) -> impl Future<Output = ()>
   where
@@ -63,20 +66,25 @@ pub trait AsyncIterTools: AsyncIterator {
   /// # Examples
   ///
   /// ```rust
-  /// use async_iter_ext::{AsyncIterTools, AsyncIterator};
-  /// use async_std::task;
   /// use std::time::Duration;
   ///
-  /// fn main() {
-  ///   let multiplied_by_two = task::block_on(async {
-  ///     let items = [1, 2, 3, 4];
-  ///     items.iter().map_async(|item| async move {
-  ///       // Simulate async transformation
-  ///       task::sleep(Duration::from_millis(100)).await;
-  ///       item * 2
-  ///     }).async_collect::<Vec<_>>().await
-  ///   });
-  /// }
+  /// use async_iter_ext::{AsyncIterTools, AsyncIterator};
+  /// use async_std::task;
+  ///
+  /// let multiplied_by_two = task::block_on(async {
+  ///   let items = [1, 2, 3, 4];
+  ///   items
+  ///     .iter()
+  ///     .map_async(|item| {
+  ///       async move {
+  ///         // Simulate async transformation
+  ///         task::sleep(Duration::from_millis(100)).await;
+  ///         item * 2
+  ///       }
+  ///     })
+  ///     .async_collect::<Vec<_>>()
+  ///     .await
+  /// });
   /// ```
   fn map_async<B, F, Fut>(self, f: F) -> AsyncMap<Self, F>
   where
@@ -101,18 +109,21 @@ pub trait AsyncIterTools: AsyncIterator {
   /// # Examples
   ///
   /// ```rust
-  /// use async_iter_ext::{AsyncIterTools, AsyncIterator}; 
+  /// use async_iter_ext::{AsyncIterTools, AsyncIterator};
   /// use async_std::task;
   ///
-  /// fn main() {
-  ///   task::block_on(async {
-  ///     let items = [1, 2, 3, 4, 5, 6];
-  ///     let filtered = items.iter().filter_async(|item| async move {
-  ///       // Keep even numbers only
-  ///       item % 2 == 0
-  ///     }).async_collect::<Vec<_>>();
-  ///   });
-  /// }
+  /// task::block_on(async {
+  ///   let items = [1, 2, 3, 4, 5, 6];
+  ///   let filtered = items
+  ///     .iter()
+  ///     .filter_async(|item| {
+  ///       async move {
+  ///         // Keep even numbers only
+  ///         item % 2 == 0
+  ///       }
+  ///     })
+  ///     .async_collect::<Vec<_>>();
+  /// });
   /// ```
   fn filter_async<F, Fut>(self, f: F) -> AsyncFilter<Self, F>
   where

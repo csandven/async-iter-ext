@@ -1,9 +1,14 @@
-use crate::iter::AsyncIterator;
-use crate::iter::sync_iter::{PollSyncIter, SyncIter};
-use std::fmt::{Debug, Formatter};
-use std::pin::Pin;
-use std::task::{Context, Poll};
-use std::vec::IntoIter;
+use std::{
+  fmt::{Debug, Formatter},
+  pin::Pin,
+  task::{Context, Poll},
+  vec::IntoIter,
+};
+
+use crate::iter::{
+  AsyncIterator,
+  sync_iter::{PollSyncIter, SyncIter},
+};
 
 #[must_use = "async iterator combinators are lazy and do nothing unless consumed"]
 pub struct AsyncMap<I, F> {

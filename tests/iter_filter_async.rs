@@ -1,8 +1,8 @@
-use async_iter_ext::AsyncIterTools;
-use async_iter_ext::iter::AsyncIterator;
+use std::time::Duration;
+
+use async_iter_ext::{AsyncIterTools, iter::AsyncIterator};
 use async_std::task::sleep;
 use rstest::rstest;
-use std::time::Duration;
 
 #[rstest]
 async fn test_simple_filter() {

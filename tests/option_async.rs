@@ -1,7 +1,8 @@
+use std::time::Duration;
+
 use async_iter_ext::AsyncOptionTools;
 use async_std::task::sleep;
 use rstest::rstest;
-use std::time::Duration;
 
 #[rstest]
 async fn test_option_is_some_and_async(#[values(Some(1), None, Some(2))] value: Option<u32>) {

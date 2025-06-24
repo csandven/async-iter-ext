@@ -1,11 +1,8 @@
-use async_iter_ext::AsyncIterTools;
-use async_iter_ext::iter::AsyncIterator;
+use std::{ops::Mul, time::Duration};
 
-use rstest::rstest;
-
+use async_iter_ext::{AsyncIterTools, iter::AsyncIterator};
 use async_std::task::sleep;
-use std::ops::Mul;
-use std::time::Duration;
+use rstest::rstest;
 
 async fn multiply_item<T: Mul<i32, Output = i32>>(value: T) -> i32 {
   sleep(Duration::from_millis(100)).await;
