@@ -1,8 +1,11 @@
-use crate::iter::{AsyncIterator, PollSyncIter, SyncIter};
+use crate::iter::AsyncIterator;
+use crate::iter::sync_iter::{PollSyncIter, SyncIter};
+use std::fmt::{Debug, Formatter};
 use std::pin::Pin;
 use std::task::{Context, Poll};
 use std::vec::IntoIter;
 
+#[must_use = "async iterator combinators are lazy and do nothing unless consumed"]
 pub struct AsyncMap<I, F> {
   pub(crate) iter: I,
   pub(crate) f: F,
@@ -47,5 +50,14 @@ where
 
   fn async_size_hint(&self) -> (usize, Option<usize>) {
     self.iter.async_size_hint()
+  }
+}
+
+impl<I, F> Debug for AsyncMap<I, F>
+where
+  I: AsyncIterator + Debug,
+{
+  fn fmt(&self, f: &mut Formatter<'_>) -> std::fmt::Result {
+    f.debug_struct("AsyncMap").field("iter", &self.iter).finish()
   }
 }

@@ -1,13 +1,17 @@
 #![doc = include_str!("../README.md")]
 
-use crate::filter::AsyncFilter;
 use crate::iter::AsyncIterator;
-use crate::map::AsyncMap;
+use combinator::filter::AsyncFilter;
+use combinator::map::AsyncMap;
 
-pub mod filter;
+pub mod adaptor;
+pub mod combinator;
 pub mod iter;
-pub mod map;
-pub mod option;
+mod option;
+mod result;
+
+pub use option::AsyncOptionTools;
+pub use result::AsyncResultTools;
 
 pub trait AsyncIterTools: AsyncIterator {
   /// Calls an async closure on each element of an iterator

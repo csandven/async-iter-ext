@@ -1,4 +1,4 @@
-use async_iter_ext::option::AsyncOptionTools;
+use async_iter_ext::AsyncOptionTools;
 use async_std::task::sleep;
 use rstest::rstest;
 use std::time::Duration;
