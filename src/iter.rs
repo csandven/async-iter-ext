@@ -2,6 +2,7 @@ use std::vec::IntoIter;
 
 use sync_iter::SyncIter;
 
+pub mod process_result;
 pub mod sync_iter;
 
 pub trait AsyncIterator {
