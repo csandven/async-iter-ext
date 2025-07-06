@@ -8,7 +8,7 @@ Async iterator methods and async methods for option and result.
 
 ```toml
 [dependencies]
-async-iter-ext = "0.1.0"
+async-iter-ext = "0.2.0"
 ```
 
 ### How to use in your crate:
