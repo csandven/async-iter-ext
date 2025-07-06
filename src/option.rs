@@ -12,8 +12,6 @@ pub trait AsyncOptionTools<T> {
     /// use async_std::task;
     /// use async_iter_ext::AsyncOptionTools;
     ///
-    /// #[test]
-    /// fn test_is_some_and_async() {
     ///     task::block_on(async {
     ///         async fn is_positive(x: i32) -> bool {
     ///             x > 0
@@ -25,7 +23,6 @@ pub trait AsyncOptionTools<T> {
     ///         assert_eq!(some.is_some_and_async(is_positive).await, true);
     ///         assert_eq!(none.is_some_and_async(is_positive).await, false);
     ///     });
-    /// }
     /// ```
    #[allow(clippy::wrong_self_convention)]
     fn is_some_and_async<F, Fut>(self, f: F) -> impl Future<Output = bool>
@@ -44,8 +41,6 @@ pub trait AsyncOptionTools<T> {
     /// use async_std::task;
     /// use async_iter_ext::AsyncOptionTools;
     ///
-    /// #[test]
-    /// fn test_is_none_or_async() {
     ///     task::block_on(async {
     ///         async fn is_zero(x: u8) -> bool {
     ///             x == 0
@@ -58,7 +53,6 @@ pub trait AsyncOptionTools<T> {
     ///         assert_eq!(some.is_none_or_async(|x| async move { x > 1 }).await, false);
     ///         assert_eq!(none.is_none_or_async(is_zero).await, true);
     ///     });
-    /// }
     /// ```
    #[allow(clippy::wrong_self_convention)]
     fn is_none_or_async<F, Fut>(self, f: F) -> impl Future<Output = bool>
@@ -77,8 +71,6 @@ pub trait AsyncOptionTools<T> {
     /// use async_std::task;
     /// use async_iter_ext::AsyncOptionTools;
     ///
-    /// #[test]
-    /// fn test_map_async() {
     ///     task::block_on(async {
     ///         async fn to_string_async(n: i32) -> String {
     ///             format!("Number: {}", n)
@@ -92,7 +84,6 @@ pub trait AsyncOptionTools<T> {
     ///         let result = none.map_async(to_string_async).await;
     ///         assert_eq!(result, None);
     ///     });
-    /// }
     /// ```
    #[allow(clippy::wrong_self_convention)]
     fn map_async<B, F, Fut>(self, f: F) -> impl Future<Output = Option<B>>
