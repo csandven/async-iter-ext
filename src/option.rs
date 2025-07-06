@@ -27,6 +27,7 @@ pub trait AsyncOptionTools<T> {
     ///     });
     /// }
     /// ```
+   #[allow(clippy::wrong_self_convention)]
     fn is_some_and_async<F, Fut>(self, f: F) -> impl Future<Output = bool>
     where
         F: FnOnce(T) -> Fut,
@@ -59,6 +60,7 @@ pub trait AsyncOptionTools<T> {
     ///     });
     /// }
     /// ```
+   #[allow(clippy::wrong_self_convention)]
     fn is_none_or_async<F, Fut>(self, f: F) -> impl Future<Output = bool>
     where
         F: FnOnce(T) -> Fut,
@@ -92,6 +94,7 @@ pub trait AsyncOptionTools<T> {
     ///     });
     /// }
     /// ```
+   #[allow(clippy::wrong_self_convention)]
     fn map_async<B, F, Fut>(self, f: F) -> impl Future<Output = Option<B>>
     where
         F: FnOnce(T) -> Fut,
