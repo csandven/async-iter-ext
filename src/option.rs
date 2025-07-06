@@ -12,19 +12,19 @@ pub trait AsyncOptionTools<T> {
     /// use async_std::task;
     /// use async_iter_ext::AsyncOptionTools;
     ///
-    ///     task::block_on(async {
-    ///         async fn is_positive(x: i32) -> bool {
-    ///             x > 0
-    ///         }
+    /// task::block_on(async {
+    ///     async fn is_positive(x: i32) -> bool {
+    ///         x > 0
+    ///     }
     ///
-    ///         let some = Some(10);
-    ///         let none: Option<i32> = None;
+    ///     let some = Some(10);
+    ///     let none: Option<i32> = None;
     ///
-    ///         assert_eq!(some.is_some_and_async(is_positive).await, true);
-    ///         assert_eq!(none.is_some_and_async(is_positive).await, false);
-    ///     });
+    ///     assert_eq!(some.is_some_and_async(is_positive).await, true);
+    ///     assert_eq!(none.is_some_and_async(is_positive).await, false);
+    /// });
     /// ```
-   #[allow(clippy::wrong_self_convention)]
+    #[allow(clippy::wrong_self_convention)]
     fn is_some_and_async<F, Fut>(self, f: F) -> impl Future<Output = bool>
     where
         F: FnOnce(T) -> Fut,
@@ -41,20 +41,23 @@ pub trait AsyncOptionTools<T> {
     /// use async_std::task;
     /// use async_iter_ext::AsyncOptionTools;
     ///
-    ///     task::block_on(async {
-    ///         async fn is_zero(x: u8) -> bool {
-    ///             x == 0
-    ///         }
+    /// task::block_on(async {
+    ///     async fn is_zero(x: u8) -> bool {
+    ///         x == 0
+    ///     }
     ///
-    ///         let some = Some(0);
-    ///         let none: Option<u8> = None;
+    ///     let some = Some(0);
+    ///     let none: Option<u8> = None;
     ///
-    ///         assert_eq!(some.is_none_or_async(is_zero).await, true);
-    ///         assert_eq!(some.is_none_or_async(|x| async move { x > 1 }).await, false);
-    ///         assert_eq!(none.is_none_or_async(is_zero).await, true);
-    ///     });
+    ///     assert_eq!(some.is_none_or_async(is_zero).await, true);
+    ///     assert_eq!(
+    ///         some.is_none_or_async(|x| async move { x > 1 }).await,
+    ///         false
+    ///     );
+    ///     assert_eq!(none.is_none_or_async(is_zero).await, true);
+    /// });
     /// ```
-   #[allow(clippy::wrong_self_convention)]
+    #[allow(clippy::wrong_self_convention)]
     fn is_none_or_async<F, Fut>(self, f: F) -> impl Future<Output = bool>
     where
         F: FnOnce(T) -> Fut,
@@ -71,21 +74,21 @@ pub trait AsyncOptionTools<T> {
     /// use async_std::task;
     /// use async_iter_ext::AsyncOptionTools;
     ///
-    ///     task::block_on(async {
-    ///         async fn to_string_async(n: i32) -> String {
-    ///             format!("Number: {}", n)
-    ///         }
+    /// task::block_on(async {
+    ///     async fn to_string_async(n: i32) -> String {
+    ///         format!("Number: {}", n)
+    ///     }
     ///
-    ///         let some = Some(42);
-    ///         let result = some.map_async(to_string_async).await;
-    ///         assert_eq!(result, Some("Number: 42".to_string()));
+    ///     let some = Some(42);
+    ///     let result = some.map_async(to_string_async).await;
+    ///     assert_eq!(result, Some("Number: 42".to_string()));
     ///
-    ///         let none: Option<i32> = None;
-    ///         let result = none.map_async(to_string_async).await;
-    ///         assert_eq!(result, None);
-    ///     });
+    ///     let none: Option<i32> = None;
+    ///     let result = none.map_async(to_string_async).await;
+    ///     assert_eq!(result, None);
+    /// });
     /// ```
-   #[allow(clippy::wrong_self_convention)]
+    #[allow(clippy::wrong_self_convention)]
     fn map_async<B, F, Fut>(self, f: F) -> impl Future<Output = Option<B>>
     where
         F: FnOnce(T) -> Fut,
@@ -110,7 +113,11 @@ impl<T> AsyncOptionTools<T> for Option<T> {
         F: FnOnce(T) -> Fut,
         Fut: Future<Output = bool>,
     {
-        if let Some(x) = self { f(x).await } else { true }
+        if let Some(x) = self {
+            f(x).await
+        } else {
+            true
+        }
     }
 
     async fn map_async<B, F, Fut>(self, f: F) -> Option<B>
