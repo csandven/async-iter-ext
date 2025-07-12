@@ -4,9 +4,12 @@ permissions:
   contents: write
 
 on:
-  issue_comment:                                     
-    types: 
-      - created
+  issue_comment:
+    types: [created]
+
+  pull_request:
+    branches:
+      - '*'
 
 jobs:
   cargo-assist:
