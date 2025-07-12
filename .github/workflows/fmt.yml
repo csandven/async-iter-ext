@@ -8,8 +8,8 @@ on:
     types: [created, edited]
 
 jobs:
-  if: contains(github.event.comment.body, '/fmt')
-    cargo-assist:
+  cargo-assist:
+    if: contains(github.event.comment.body, '/fmt')
       name: Cargo Assist
       runs-on: ubuntu-latest
       steps:
