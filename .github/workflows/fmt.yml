@@ -17,11 +17,25 @@ jobs:
     if: contains(github.event.comment.body, '/fmt')
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository
+      - name: Get PR HEAD Ref
+        id: getRef
+        run: echo "pr_ref=$(gh pr view $PR_NUMBER --repo ${{ github.repository }} --json headRefName | jq -r '.headRefName')" >> $GITHUB_OUTPUT
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_NUMBER: ${{ github.event.issue.number }}
+
+      - name: Checkout source code from Github
         uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          ref: ${{ steps.getRef.outputs.pr_ref }}
+
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
+
       - name: Run Cargo Assist
         uses: MarcoIeni/cargo-assist@v0.1
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
+
+  
