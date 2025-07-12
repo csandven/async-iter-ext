@@ -13,6 +13,10 @@ pub use result::AsyncResultTools;
 
 use crate::iter::process_result::ProcessResults;
 
+/// Extension methods for asynchronous iterators.
+///
+/// This trait provides utility combinators similar to those on `Iterator`, but adapted for
+/// asynchronous contexts using the [`AsyncIterator`] trait.
 pub trait AsyncIterTools: AsyncIterator {
     /// Calls an async closure on each element of an iterator
     ///
