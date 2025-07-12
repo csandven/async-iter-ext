@@ -5,7 +5,8 @@ permissions:
 
 on:
   issue_comment:                                     
-    types: [created, edited]
+    types: 
+      - created
 
 jobs:
   cargo-assist:
