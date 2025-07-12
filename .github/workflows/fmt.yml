@@ -30,12 +30,6 @@ jobs:
           fetch-depth: 0
           ref: ${{ steps.getRef.outputs.pr_ref }}
 
-      - name: Put a reaction to the comment
-        run: gh api graphql --silent --raw-field query="mutation AddReaction {addReaction(input:{subjectId:\"$NODE_ID\",content:EYES}){reaction{content}subject{id}}}"
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          NODE_ID: ${{ github.event.comment.node_id }}
-
       - name: Install Rust toolchain
         uses: dtolnay/rust-toolchain@stable
 
@@ -44,19 +38,4 @@ jobs:
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Final Comment
-        run: |
-          gh api graphql --silent --raw-field query="mutation AddReaction {addReaction(input:{subjectId:\"$NODE_ID\",content:THUMBS_UP}){reaction{content}subject{id}}}"
-          gh api graphql --silent --raw-field query="mutation RemoveReaction {removeReaction(input:{subjectId:\"$NODE_ID\",content:EYES}){reaction{content}subject{id}}}"
-          (
-            echo "**${{ github.workflow }}**"
-            echo "The long task is done!"
-            echo
-            echo "You can find the workflow here:"
-            echo "${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}"
-          ) | \
-          gh pr comment "${PR_NUMBER}" --repo ${{ github.repository }} -F -          
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PR_NUMBER: ${{ github.event.issue.number }}
-          NODE_ID: ${{ github.event.comment.node_id }}
+  
