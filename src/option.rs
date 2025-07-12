@@ -113,11 +113,7 @@ impl<T> AsyncOptionTools<T> for Option<T> {
         F: FnOnce(T) -> Fut,
         Fut: Future<Output = bool>,
     {
-        if let Some(x) = self {
-            f(x).await
-        } else {
-            true
-        }
+        if let Some(x) = self { f(x).await } else { true }
     }
 
     async fn map_async<B, F, Fut>(self, f: F) -> Option<B>
