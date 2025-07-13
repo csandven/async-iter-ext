@@ -1,4 +1,4 @@
-2use std::vec::IntoIter;
+use std::vec::IntoIter;
 
 use sync_iter::SyncIter;
 
