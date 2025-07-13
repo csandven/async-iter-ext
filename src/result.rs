@@ -48,6 +48,30 @@ pub trait AsyncResultTools<T, E> {
     where
         F: FnOnce(T) -> Fut,
         Fut: Future<Output = B>;
+
+    /// Applies an asynchronous function to the contained `Ok` value, returning a new `Result`.
+    ///
+    /// Similar to `Result::and_then`, but with support for async functions.
+    fn and_then_async<B, F, Fut>(self, f: F) -> impl Future<Output = Result<B, E>>
+    where
+        F: FnOnce(T) -> Fut,
+        Fut: Future<Output = Result<B, E>>;
+
+    /// Applies an asynchronous function to the contained `Err` value, returning a new `Result`.
+    ///
+    /// Similar to `Result::map_err`, but with async support.
+    fn map_err_async<F, Fut, E2>(self, f: F) -> impl Future<Output = Result<T, E2>>
+    where
+        F: FnOnce(E) -> Fut,
+        Fut: Future<Output = E2>;
+
+    /// Applies an asynchronous fallback function if the result is an `Err`.
+    ///
+    /// Similar to `Result::or_else`, but async.
+    fn or_else_async<F, Fut>(self, f: F) -> impl Future<Output = Result<T, E>>
+    where
+        F: FnOnce(E) -> Fut,
+        Fut: Future<Output = Result<T, E>>;
 }
 
 impl<T, E> AsyncResultTools<T, E> for Result<T, E> {
@@ -67,6 +91,39 @@ impl<T, E> AsyncResultTools<T, E> for Result<T, E> {
         match self {
             Ok(x) => Ok(f(x).await),
             Err(e) => Err(e),
+        }
+    }
+
+    async fn and_then_async<B, F, Fut>(self, f: F) -> Result<B, E>
+    where
+        F: FnOnce(T) -> Fut,
+        Fut: Future<Output = Result<B, E>>,
+    {
+        match self {
+            Ok(x) => f(x).await,
+            Err(e) => Err(e),
+        }
+    }
+
+    async fn map_err_async<F, Fut, E2>(self, f: F) -> Result<T, E2>
+    where
+        F: FnOnce(E) -> Fut,
+        Fut: Future<Output = E2>,
+    {
+        match self {
+            Ok(x) => Ok(x),
+            Err(e) => Err(f(e).await),
+        }
+    }
+
+    async fn or_else_async<F, Fut>(self, f: F) -> Result<T, E>
+    where
+        F: FnOnce(E) -> Fut,
+        Fut: Future<Output = Result<T, E>>,
+    {
+        match self {
+            Ok(x) => Ok(x),
+            Err(e) => f(e).await,
         }
     }
 }
