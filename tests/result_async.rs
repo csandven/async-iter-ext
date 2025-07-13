@@ -29,11 +29,7 @@ async fn err_to_uppercase(e: &'static str) -> &'static str {
 }
 
 async fn recover(e: &'static str) -> Result<u32, &'static str> {
-    if e == "recover" {
-        Ok(99)
-    } else {
-        Err(e)
-    }
+    if e == "recover" { Ok(99) } else { Err(e) }
 }
 
 #[rstest]
@@ -41,14 +37,17 @@ async fn recover(e: &'static str) -> Result<u32, &'static str> {
 #[case(Ok(5), false)]
 #[case(Err("oops"), false)]
 async fn test_is_ok_and_async(#[case] input: Result<u32, &'static str>, #[case] expected: bool) {
-    let actual =  input.is_ok_and_async(is_even).await;
+    let actual = input.is_ok_and_async(is_even).await;
     assert_eq!(actual, expected);
 }
 
 #[rstest]
 #[case(Ok(3), Ok(6))]
 #[case(Err("fail"), Err("fail"))]
-async fn test_map_async(#[case] input: Result<u32, &'static str>, #[case] expected: Result<u32, &'static str>) {
+async fn test_map_async(
+    #[case] input: Result<u32, &'static str>,
+    #[case] expected: Result<u32, &'static str>,
+) {
     let actual = input.map_async(double).await;
     assert_eq!(actual, expected);
 }
@@ -56,8 +55,11 @@ async fn test_map_async(#[case] input: Result<u32, &'static str>, #[case] expect
 #[rstest]
 #[case(Ok(3), Ok(6))]
 #[case(Err("fail"), Err("fail"))]
-async fn test_and_then_async(#[case] input: Result<u32, &'static str>, #[case] expected: Result<u32, &'static str>) {
-    let actual =  input.and_then_async(double_ok).await;
+async fn test_and_then_async(
+    #[case] input: Result<u32, &'static str>,
+    #[case] expected: Result<u32, &'static str>,
+) {
+    let actual = input.and_then_async(double_ok).await;
     assert_eq!(actual, expected);
 }
 
@@ -65,7 +67,10 @@ async fn test_and_then_async(#[case] input: Result<u32, &'static str>, #[case] e
 #[case(Ok(7), Ok(7))]
 #[case(Err("fail"), Err("FAIL"))]
 #[case(Err("recover"), Err("recover"))]
-async fn test_map_err_async(#[case] input: Result<u32, &'static str>, #[case] expected: Result<u32, &'static str>) {
+async fn test_map_err_async(
+    #[case] input: Result<u32, &'static str>,
+    #[case] expected: Result<u32, &'static str>,
+) {
     let actual = input.map_err_async(err_to_uppercase).await;
     assert_eq!(actual, expected);
 }
@@ -74,7 +79,10 @@ async fn test_map_err_async(#[case] input: Result<u32, &'static str>, #[case] ex
 #[case(Ok(10), Ok(10))]
 #[case(Err("recover"), Ok(99))]
 #[case(Err("fail"), Err("fail"))]
-async fn test_or_else_async(#[case] input: Result<u32, &'static str>, #[case] expected: Result<u32, &'static str>) {
+async fn test_or_else_async(
+    #[case] input: Result<u32, &'static str>,
+    #[case] expected: Result<u32, &'static str>,
+) {
     let actual = input.or_else_async(recover).await;
     assert_eq!(actual, expected);
 }
