@@ -1,4 +1,4 @@
-use std::vec::IntoIter;
+2use std::vec::IntoIter;
 
 use sync_iter::SyncIter;
 
@@ -136,8 +136,6 @@ where
 ///
 /// This enables any standard iterator to be used as an async iterator by immediately
 /// returning the next item.
-///
-/// Note: Since this is a synchronous fallback, `next_async()` will not perform actual async work.
 impl<T> AsyncIterator for T
 where
     T: Iterator + ?Sized,
