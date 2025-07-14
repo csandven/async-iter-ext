@@ -1,5 +1,7 @@
 # async-iter-ext
 
+[![codecov](https://codecov.io/gh/csandven/async-iter-ext/graph/badge.svg?token=XUM5L9BOYR)](https://codecov.io/gh/csandven/async-iter-ext)
+
 Async iterator methods and async methods for option and result.
 
 --- 
