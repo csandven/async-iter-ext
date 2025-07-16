@@ -5,3 +5,4 @@ pre-release-replacements = [
     {file="README.md", search="async-iter-ext = .*", replace="async-iter-ext = \"{{version}}\""},
     {file="Cargo.toml", search="^version = .*", replace="version = \"{{version}}\""},
 ]
+pre-release-commit-message = "chore(release): Release {{version}}"
