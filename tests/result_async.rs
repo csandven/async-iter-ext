@@ -10,7 +10,7 @@ enum Error {
 }
 
 async fn is_even(x: u32) -> bool {
-    x % 2 == 0
+    x.is_multiple_of(2)
 }
 
 async fn double(x: u32) -> u32 {
